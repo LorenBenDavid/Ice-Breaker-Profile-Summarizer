@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 from ice_breaker import ice_break
 from agents.linkedin_lookup_agents import lookup as lookup
-import traceback
 
 app = Flask(__name__)
 
@@ -31,6 +30,9 @@ def process():
         if linkedin_username.endswith("."):
             linkedin_username = linkedin_username[:-1]
 
+        if isinstance(linkedin_username, dict):
+            linkedin_username = linkedin_username.get("output", "")
+
         if not linkedin_username or "Unable to find" in linkedin_username or "Unfortunately" in linkedin_username:
             return jsonify({"error": "Unable to find LinkedIn profile for the provided name."}), 400
 
@@ -44,8 +46,9 @@ def process():
             "facts": person_info.facts,
             "picture_url": profile_pic_url,
         })
+
     except Exception as e:
-        print(f"❗ Error occurred: {e}")
+        print(f"⚠️ ERROR inside /process route: {e}")
         return jsonify({"error": str(e)}), 500
 
 
