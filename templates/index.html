@@ -145,8 +145,8 @@
           const summaryText = document.getElementById("summaryText");
           const factsContainer = document.getElementById("factsContainer");
 
-          loader.style.display = "block"; // הצג ספינר
-          resultContainer.style.display = "none"; // הסתר תוצאות קודמות
+          loader.style.display = "block"; 
+          resultContainer.style.display = "none"; 
 
           try {
             const response = await fetch("/process", {
@@ -172,11 +172,11 @@
               factsContainer.appendChild(box);
             });
 
-            resultContainer.style.display = "block"; // הצג תוצאות
+            resultContainer.style.display = "block"; 
           } catch (err) {
             alert("❌ Could not retrieve profile.");
           } finally {
-            loader.style.display = "none"; // הסתר ספינר
+            loader.style.display = "none"; 
           }
         });
     </script>
