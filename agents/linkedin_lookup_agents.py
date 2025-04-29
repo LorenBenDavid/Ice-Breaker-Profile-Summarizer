@@ -1,7 +1,7 @@
 from langchain_core.prompts import PromptTemplate
 from langchain_community.chat_models import ChatOpenAI
 
-
+import traceback
 from langchain.agents import initialize_agent, Tool, AgentType
 from tools.tools import get_profile_url
 
@@ -27,6 +27,11 @@ def lookup(name: str) -> str:
         verbose=True,
     )
 
-    linked_profile_url = agent.invoke({"input": name})
+    try:
+        linked_profile_url = agent.invoke({"input": name})
+    except Exception as e:
+        print(f"🔥 ERROR in agent.invoke: {e}")
+        traceback.print_exc()
+        raise e
 
     return linked_profile_url
