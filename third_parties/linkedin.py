@@ -20,8 +20,8 @@ def scrape_linkedin_profile(linkedin_profile_url: str, mock: bool = False):
     else:
         api_endpoint = "https://api.scrapin.io/enrichment/profile"
         params = {
-            "apikey": os.environ["SCRAPIN_API_KEY"],  # המפתח שלך
-            "linkedInUrl": linkedin_profile_url,  # ה-URL של לינקדאין
+            "apikey": os.environ["SCRAPIN_API_KEY"],  
+            "linkedInUrl": linkedin_profile_url, 
         }
 
         print(
@@ -36,7 +36,7 @@ def scrape_linkedin_profile(linkedin_profile_url: str, mock: bool = False):
             print(f"🔍 API response JSON: {response.json()}")
 
         except requests.exceptions.RequestException as e:
-            # במקרה של שגיאה בתקשורת או ב-API
+           
             print(f"⚠️ Error with API request: {e}")
             return None
 
@@ -58,7 +58,7 @@ def scrape_linkedin_profile(linkedin_profile_url: str, mock: bool = False):
     data = {k: v for k, v in data.items() if v not in (
         [], "", None) and k not in ["certifications"]}
 
-    return data  # מחזירים את הנתונים הסופיים
+    return data  
 
 
 if __name__ == "__main__":
