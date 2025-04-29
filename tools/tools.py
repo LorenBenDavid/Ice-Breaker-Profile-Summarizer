@@ -11,7 +11,7 @@ class CustomSerpAPIWrapper(SerpAPIWrapper):
         if "error" in res.keys():
             raise ValueError(f"Got error from SerpAPI: {res['error']}")
 
-        # חיפוש לינקדאין מתוך תוצאות אורגניות
+        
         for result in res.get("organic_results", []):
             link = result.get("link", "")
             if "linkedin.com/in/" in link:
