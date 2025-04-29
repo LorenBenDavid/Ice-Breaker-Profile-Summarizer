@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile Summarizer</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background-color: #f4f4f4;
+      }
+      .container {
+        max-width: 700px;
+        margin: 40px auto;
+        background-color: white;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        display: flex;
+        align-items: center;
+        font-size: 24px;
+        margin-bottom: 30px;
+      }
+      h1::before {
+        content: "🔍";
+        margin-right: 10px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 16px;
+        margin-bottom: 20px;
+      }
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #0073b1;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .auto-generated {
+        display: inline-block;
+        background-color: #e8f2ff;
+        color: #0073b1;
+        padding: 6px 12px;
+        font-weight: 600;
+        border-radius: 20px;
+        margin-bottom: 16px;
+      }
+      .name {
+        font-size: 22px;
+        font-weight: 700;
+        margin-bottom: 24px;
+      }
+      .section-title {
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 32px;
+        margin-bottom: 12px;
+      }
+      .summary-text {
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .fact-box {
+        background-color: #e8f2ff;
+        border-left: 4px solid #0073b1;
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+      .fact-title {
+        font-weight: 600;
+        margin-bottom: 4px;
+      }
+      #loader {
+        display: none;
+        margin: 20px auto;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid #0073b1;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Profile Summarizer</h1>
+      <form id="lookupForm">
+        <input
+          type="text"
+          id="nameInput"
+          placeholder="Enter a name..."
+          required
+        />
+        <button type="submit">Generate Summary</button>
+      </form>
+
+      <div id="loader"></div>
+
+      <div id="resultContainer" style="display: none">
+        <div class="auto-generated">Auto-generated Profile</div>
+        <div class="name" id="displayName"></div>
+
+        <div class="section-title">Professional Summary</div>
+        <div class="summary-text" id="summaryText"></div>
+
+        <div class="section-title">Interesting Facts</div>
+        <div id="factsContainer"></div>
+      </div>
+    </div>
+
+    <script>
+      document
+        .getElementById("lookupForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const name = document.getElementById("nameInput").value.trim();
+          if (!name) return;
+
+          const loader = document.getElementById("loader");
+          const resultContainer = document.getElementById("resultContainer");
+          const displayName = document.getElementById("displayName");
+          const summaryText = document.getElementById("summaryText");
+          const factsContainer = document.getElementById("factsContainer");
+
+          loader.style.display = "block"; // הצג ספינר
+          resultContainer.style.display = "none"; // הסתר תוצאות קודמות
+
+          try {
+            const response = await fetch("/process", {
+              method: "POST",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: new URLSearchParams({ name }),
+            });
+
+            if (!response.ok) throw new Error("Fetch error");
+
+            const data = await response.json();
+            displayName.textContent = name;
+            summaryText.textContent = data.summary;
+
+            factsContainer.innerHTML = "";
+            data.facts.forEach((fact, i) => {
+              const box = document.createElement("div");
+              box.className = "fact-box";
+              box.innerHTML = `
+            <div class="fact-title">Interesting Fact #${i + 1}</div>
+            <div>${fact}</div>
+          `;
+              factsContainer.appendChild(box);
+            });
+
+            resultContainer.style.display = "block"; // הצג תוצאות
+          } catch (err) {
+            alert("❌ Could not retrieve profile.");
+          } finally {
+            loader.style.display = "none"; // הסתר ספינר
+          }
+        });
+    </script>
+  </body>
+</html>
