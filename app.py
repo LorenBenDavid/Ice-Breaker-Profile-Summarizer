@@ -3,6 +3,8 @@ from ice_breaker import ice_break
 from agents.linkedin_lookup_agents import lookup as lookup
 import sys
 import traceback
+import os
+
 
 app = Flask(__name__)
 
@@ -56,4 +58,5 @@ def process():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001, debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host="0.0.0.0", port=port, debug=True)
