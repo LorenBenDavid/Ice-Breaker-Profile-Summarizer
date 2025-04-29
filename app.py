@@ -44,11 +44,9 @@ def process():
             "facts": person_info.facts,
             "picture_url": profile_pic_url,
         })
-
     except Exception as e:
-        print("❌ Error during process:")
-        traceback.print_exc()
-        return jsonify({"error": "Internal server error"}), 500
+        print(f"❗ Error occurred: {e}")
+        return jsonify({"error": str(e)}), 500
 
 
 if __name__ == "__main__":
