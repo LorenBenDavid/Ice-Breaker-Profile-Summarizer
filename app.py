@@ -31,6 +31,9 @@ def process():
             start = linkedin_username.find("http")
             linkedin_username = linkedin_username[start:].strip()
 
+        if "?" in linkedin_username:
+            linkedin_username = linkedin_username.split("?")[0]
+
         if linkedin_username.endswith("."):
             linkedin_username = linkedin_username[:-1]
 
