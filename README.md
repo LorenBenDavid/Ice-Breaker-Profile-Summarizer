@@ -36,7 +36,7 @@ Built with **Python**, **Flask**, **LangChain**, **OpenAI**, **Scrapin.io**, and
 git clone https://github.com/LorenBenDavid/Ice-Breaker-Profile-Summarizer.git
 cd Ice-Breaker-Profile-Summarizer
 
- ### 2. Install dependencies
+ ### 2. Install dependencie
 pip install -r requirements.txt
 
 ### 3. Set your environment variables
