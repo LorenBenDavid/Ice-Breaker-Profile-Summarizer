@@ -7,4 +7,4 @@ services:
     startCommand: python app.py
     envVars:
       - key: PORT
-        value: 5001
+        value: 5000
