@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify
 from ice_breaker import ice_break
 from agents.linkedin_lookup_agents import lookup as lookup
 import sys
+import traceback
 
 app = Flask(__name__)
 
@@ -50,6 +51,7 @@ def process():
 
     except Exception as e:
         print(f"⚠️ ERROR inside /process route: {e}", file=sys.stderr)
+        traceback.print_exc()
         return jsonify({"error": str(e)}), 500
 
 
