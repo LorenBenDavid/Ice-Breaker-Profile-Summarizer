@@ -12,7 +12,7 @@ load_dotenv()
 def ice_break(linkedin_profile_url: str):
     print(f"🔍 Using LinkedIn profile URL: {linkedin_profile_url}")
 
-    # גריסת פרופיל לינקדאין
+    
     linkedin_data = scrape_linkedin_profile(
         linkedin_profile_url=linkedin_profile_url,
         mock=False
